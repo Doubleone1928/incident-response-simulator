@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard - Incident Response Simulator
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard">
+
+    <h2>Security Operations Dashboard</h2>
+
+    <p>
+        Monitor simulated cybersecurity incidents,
+        detection events and response actions.
+    </p>
+
+   <div class="cards">
+
+    <div class="card">
+        <h3>Total Incidents</h3>
+        <p>{{ stats["total"] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Critical</h3>
+        <p>{{ stats["critical"] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>High Severity</h3>
+        <p>{{ stats["high"] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Medium Severity</h3>
+        <p>{{ stats["medium"] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Detected</h3>
+        <p>{{ stats["detected"] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Contained</h3>
+        <p>{{ stats["contained"] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Resolved</h3>
+        <p>{{ stats["resolved"] }}</p>
+    </div>
+
+</div>
+
+    <section class="simulation-panel">
+
+        <h2>Incident Simulation</h2>
+
+        <p>
+            Generate a simulated security event for testing
+            the detection and response system.
+        </p>
+
+        <a href="/simulate/port-scan">
+    <button type="button">
+        Simulate Port Scan
+    </button>
+</a>
+<a href="/simulate/brute-force">
+    <button type="button">
+        Simulate Brute Force
+    </button>
+</a>
+
+        <a href="/simulate/traffic">
+    <button type="button">
+        Simulate Suspicious Traffic
+    </button>
+</a>
+
+    </section>
+
+</section>
+
+{% endblock %}

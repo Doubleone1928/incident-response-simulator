@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}
+Reports - Incident Response Simulator
+{% endblock %}
+
+{% block content %}
+
+<h2>Incident Reports</h2>
+
+<p>
+    Summary of simulated security incidents recorded by the system.
+</p>
+
+
+<section class="cards">
+
+    <div class="card">
+        <h3>Total Incidents</h3>
+        <p>{{ stats["total"] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Critical</h3>
+        <p>{{ stats["critical"] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>High</h3>
+        <p>{{ stats["high"] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Medium</h3>
+        <p>{{ stats["medium"] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Detected</h3>
+        <p>{{ stats["detected"] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Contained</h3>
+        <p>{{ stats["contained"] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Resolved</h3>
+        <p>{{ stats["resolved"] }}</p>
+    </div>
+
+</section>
+
+
+<section class="charts">
+
+    <div class="chart-container">
+        <h3>Incidents by Type</h3>
+
+        <canvas id="incidentTypeChart"></canvas>
+    </div>
+
+
+    <div class="chart-container">
+        <h3>Incidents by Severity</h3>
+
+        <canvas id="severityChart"></canvas>
+    </div>
+
+</section>
+
+
+<section class="simulation-panel">
+
+    <h3>Incidents by Type</h3>
+
+    {% if type_stats %}
+
+    <table class="incident-table">
+
+        <thead>
+            <tr>
+                <th>Incident Type</th>
+                <th>Number of Incidents</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for row in type_stats %}
+
+            <tr>
+                <td>{{ row["incident_type"] }}</td>
+                <td>{{ row["count"] }}</td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+    <p>No incident data available.</p>
+
+    {% endif %}
+
+</section>
+
+
+<section class="simulation-panel">
+
+    <h3>Incidents by Severity</h3>
+
+    {% if severity_stats %}
+
+    <table class="incident-table">
+
+        <thead>
+            <tr>
+                <th>Severity</th>
+                <th>Number of Incidents</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for row in severity_stats %}
+
+            <tr>
+                <td>{{ row["severity"] }}</td>
+                <td>{{ row["count"] }}</td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+    <p>No severity data available.</p>
+
+    {% endif %}
+
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const incidentTypeLabels = [
+        {% for row in type_stats %}
+            "{{ row['incident_type'] }}",
+        {% endfor %}
+    ];
+
+    const incidentTypeData = [
+        {% for row in type_stats %}
+            {{ row['count'] }},
+        {% endfor %}
+    ];
+
+
+    const severityLabels = [
+        {% for row in severity_stats %}
+            "{{ row['severity'] }}",
+        {% endfor %}
+    ];
+
+    const severityData = [
+        {% for row in severity_stats %}
+            {{ row['count'] }},
+        {% endfor %}
+    ];
+
+
+    new Chart(
+        document.getElementById("incidentTypeChart"),
+        {
+            type: "bar",
+
+            data: {
+                labels: incidentTypeLabels,
+
+                datasets: [{
+                    label: "Number of Incidents",
+                    data: incidentTypeData
+                }]
+            },
+
+            options: {
+                responsive: true,
+
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        }
+    );
+
+
+    new Chart(
+        document.getElementById("severityChart"),
+        {
+            type: "pie",
+
+            data: {
+                labels: severityLabels,
+
+                datasets: [{
+                    label: "Severity",
+                    data: severityData
+                }]
+            },
+
+            options: {
+                responsive: true
+            }
+        }
+    );
+</script>
+
+{% endblock %}

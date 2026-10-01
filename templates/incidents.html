@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}
+Incidents - Incident Response Simulator
+{% endblock %}
+
+{% block content %}
+
+<h2>Security Incidents</h2>
+
+{% if incidents %}
+
+<table class="incident-table">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Source IP</th>
+            <th>Target</th>
+            <th>Severity</th>
+            <th>Status</th>
+            <th>Response</th>
+            <th>Created</th>
+            <th>Detection Rule</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for incident in incidents %}
+
+        <tr>
+          <td>
+           <a href="{{ url_for('incident_detail', incident_id=incident['id']) }}">
+               #{{ incident["id"] }}
+            </a>
+           </td>
+
+            <td>
+              <a href="{{ url_for('incident_detail', incident_id=incident['id']) }}">
+                 {{ incident["incident_type"] }}
+              </a>
+            </td>
+
+            <td>
+                {{ incident["source_ip"] }}
+            </td>
+
+            <td>
+                {{ incident["target"] or "N/A" }}
+            </td>
+
+            <td>
+                {{ incident["severity"] }}
+            </td>
+
+            <td>
+                {{ incident["status"] }}
+            </td>
+             
+            <td>
+                {{ incident["response_action"] or "None" }}
+            </td>
+            <td>
+                {{ incident["created_at"] }}
+            </td>
+
+            <td>
+                {{ incident["detection_rule"] or "N/A" }}
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% else %}
+
+<p>No incidents have been generated yet.</p>
+
+{% endif %}
+
+{% endblock %}

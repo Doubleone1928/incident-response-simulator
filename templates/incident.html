@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Incident #{{ incident["id"] }} - Incident Response Simulator
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+<header class="navbar">
+
+    <h1>Incident Response Simulator</h1>
+
+    <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('incidents') }}">Incidents</a>
+        <a href="{{ url_for('reports') }}">Reports</a>
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <p>
+        <a href="{{ url_for('incidents') }}">
+            ← Back to Incidents
+        </a>
+    </p>
+
+
+    <h2>
+        Incident #{{ incident["id"] }}
+    </h2>
+
+
+    <div class="card">
+
+        <h3>Incident Information</h3>
+
+        <p>
+            <strong>Incident Type:</strong>
+            {{ incident["incident_type"] }}
+        </p>
+
+        <p>
+            <strong>Source IP:</strong>
+            {{ incident["source_ip"] }}
+        </p>
+
+        <p>
+            <strong>Target:</strong>
+            {{ incident["target"] or "N/A" }}
+        </p>
+
+        <p>
+            <strong>Severity:</strong>
+            {{ incident["severity"] }}
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+            {{ incident["status"] }}
+        </p>
+
+        <p>
+           <strong>Detection Rule:</strong>
+           {{ incident["detection_rule"] or "Not recorded" }}
+        </p>
+
+        <p>
+            <strong>Description:</strong>
+            {{ incident["description"] or "No description available." }}
+        </p>
+
+        <p>
+            <strong>Response Action:</strong>
+            {{ incident["response_action"] or "No response action recorded." }}
+        </p>
+
+        <p>
+            <strong>Created At:</strong>
+            {{ incident["created_at"] }}
+        </p>
+
+    </div>
+
+</main>
+
+</body>
+
+</html>
